@@ -526,3 +526,245 @@ footer.crm-footer .action-bar {
     left: 220px;
   }
 }
+
+/* ——— Edit System Field modal ——— */
+body.sf-modal-open {
+  overflow: hidden;
+}
+
+.sf-modal[hidden] {
+  display: none !important;
+}
+
+.sf-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.sf-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+}
+
+.sf-modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: min(640px, calc(100vh - 48px));
+  background: var(--crm-white);
+  border-radius: 10px;
+  box-shadow: 0 16px 48px rgba(17, 24, 39, 0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sf-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--crm-n75);
+  flex-shrink: 0;
+}
+
+.sf-modal__title {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--crm-n400);
+}
+
+.sf-modal__close {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--crm-gr300);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sf-modal__close:hover {
+  color: var(--crm-n400);
+  background: var(--crm-gr50);
+}
+
+.sf-modal__body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.sf-field {
+  margin-bottom: 18px;
+}
+
+.sf-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--crm-n400);
+  margin-bottom: 8px;
+}
+
+.sf-required {
+  color: #e11d48;
+  margin-left: 2px;
+}
+
+.sf-control {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--crm-n75);
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: var(--crm-n400);
+  background: var(--crm-white);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.sf-control:focus {
+  outline: 2px solid color-mix(in srgb, var(--crm-p400) 35%, white);
+  border-color: var(--crm-p400);
+}
+
+.sf-control--readonly,
+.sf-control:disabled {
+  background: var(--crm-gr50);
+  color: var(--crm-n300);
+  cursor: default;
+}
+
+.sf-select-wrap {
+  position: relative;
+}
+
+.sf-select-wrap::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--crm-gr300);
+  border-bottom: 1.5px solid var(--crm-gr300);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.sf-select-wrap .sf-control {
+  padding-right: 36px;
+}
+
+.sf-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+  padding-bottom: 8px;
+}
+
+.sf-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--crm-n400);
+  cursor: pointer;
+  user-select: none;
+}
+
+.sf-check input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--crm-gr100);
+  border-radius: 3px;
+  background: var(--crm-white);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sf-check input:checked {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.sf-check input:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.sf-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--crm-n75);
+  flex-shrink: 0;
+}
+
+.sf-modal__footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sf-link-btn,
+.sf-text-btn {
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--crm-n400);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.sf-link-btn:hover,
+.sf-text-btn:hover {
+  background: var(--crm-gr50);
+}
+
+.sf-primary-btn {
+  border: 0;
+  background: #0f766e;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.sf-primary-btn:hover {
+  background: #0d6861;
+}
+

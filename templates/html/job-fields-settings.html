@@ -157,6 +157,95 @@
       </main>
     </div>
 
+    <!-- Edit System Field modal (Job Posting / Unpost Schedule Date) -->
+    <div
+      class="sf-modal"
+      id="edit-system-field-modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-system-field-title"
+    >
+      <div class="sf-modal__backdrop" data-close-modal></div>
+      <div class="sf-modal__dialog">
+        <header class="sf-modal__header">
+          <h2 class="sf-modal__title" id="edit-system-field-title">Edit System Field</h2>
+          <button
+            class="sf-modal__close"
+            type="button"
+            data-close-modal
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </header>
+        <div class="sf-modal__body">
+          <div class="sf-field">
+            <label class="sf-label" for="sf-language">Field Language</label>
+            <div class="sf-select-wrap">
+              <select class="sf-control" id="sf-language">
+                <option value="en" selected>English (Global)</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+              </select>
+            </div>
+          </div>
+          <div class="sf-field">
+            <label class="sf-label" for="sf-name"
+              >Field Name <span class="sf-required" aria-hidden="true">*</span></label
+            >
+            <input class="sf-control sf-control--readonly" id="sf-name" type="text" readonly />
+          </div>
+          <div class="sf-field">
+            <label class="sf-label" for="sf-system-label"
+              >Field System Label <span class="sf-required" aria-hidden="true">*</span></label
+            >
+            <input
+              class="sf-control sf-control--readonly"
+              id="sf-system-label"
+              type="text"
+              readonly
+            />
+          </div>
+          <div class="sf-field">
+            <label class="sf-label" for="sf-type"
+              >Field Type <span class="sf-required" aria-hidden="true">*</span></label
+            >
+            <div class="sf-select-wrap">
+              <select class="sf-control sf-control--readonly" id="sf-type" disabled>
+                <option value="DATE-PICKER">Date</option>
+                <option value="TEXT-BOX">Text Box</option>
+                <option value="SELECT-BOX">Dropdown</option>
+                <option value="NUMBER">Number</option>
+              </select>
+            </div>
+          </div>
+          <div class="sf-checks">
+            <label class="sf-check">
+              <input type="checkbox" id="sf-advanced-filter" />
+              <span>Show in Advanced Filter</span>
+            </label>
+            <label class="sf-check">
+              <input type="checkbox" id="sf-export-data" />
+              <span>Show in export data</span>
+            </label>
+            <label class="sf-check">
+              <input type="checkbox" id="sf-active" />
+              <span>Active</span>
+            </label>
+          </div>
+        </div>
+        <footer class="sf-modal__footer">
+          <button class="sf-link-btn" type="button" id="sf-remove">Remove Field</button>
+          <div class="sf-modal__footer-actions">
+            <button class="sf-text-btn" type="button" data-close-modal>Cancel</button>
+            <button class="sf-primary-btn" type="button" id="sf-modify">Modify Field</button>
+          </div>
+        </footer>
+      </div>
+    </div>
+
     <script>
       const TYPE_LABELS = {
         "TEXT-BOX": "Text Box",
@@ -206,22 +295,32 @@
           type: "DATE-PICKER",
           active: true,
           filter: true,
+          exportData: false,
           isNew: true,
+          fieldName: "jobPostingScheduleDate",
+          editable: true,
         },
         {
           label: "Job Unpost Schedule Date",
           type: "DATE-PICKER",
           active: true,
           filter: true,
+          exportData: false,
           isNew: true,
+          fieldName: "jobUnpostScheduleDate",
+          editable: true,
         },
       ];
 
       const INITIAL_VISIBLE = 5;
+      let editingFieldIndex = null;
 
       function rowHtml(field, index) {
         const typeLabel = TYPE_LABELS[field.type] || field.type;
         const newBadge = field.isNew ? `<span class="new-badge">New</span>` : "";
+        const editAttrs = field.editable
+          ? `data-edit-system="${index}"`
+          : `aria-disabled="true"`;
         return `
           <div class="t_row five_col ${field.isNew ? "is-new" : ""}" data-row data-name="${field.label.toLowerCase()}" data-index="${index}">
             <div class="t_data field_label txt" title="${field.label}">
@@ -239,16 +338,78 @@
             </div>
             <div class="t_data field_edit">
               <span class="field_edit_wrapper">
-                <button class="icon-btn" type="button" title="Edit field" aria-label="Edit ${field.label}">✎</button>
+                <button class="icon-btn" type="button" ${editAttrs} title="Edit field" aria-label="Edit ${field.label}">✎</button>
               </span>
             </div>
           </div>`;
       }
 
+      function openEditSystemFieldModal(index) {
+        const field = SYSTEM_FIELDS[index];
+        if (!field || !field.editable) return;
+        editingFieldIndex = index;
+
+        document.getElementById("sf-language").value = "en";
+        document.getElementById("sf-name").value = field.fieldName || "";
+        document.getElementById("sf-system-label").value = field.label;
+        document.getElementById("sf-type").value = field.type;
+        document.getElementById("sf-advanced-filter").checked = !!field.filter;
+        document.getElementById("sf-export-data").checked = !!field.exportData;
+        document.getElementById("sf-active").checked = !!field.active;
+
+        const modal = document.getElementById("edit-system-field-modal");
+        modal.hidden = false;
+        document.body.classList.add("sf-modal-open");
+        modal.querySelector(".sf-modal__close").focus();
+      }
+
+      function closeEditSystemFieldModal() {
+        const modal = document.getElementById("edit-system-field-modal");
+        modal.hidden = true;
+        document.body.classList.remove("sf-modal-open");
+        editingFieldIndex = null;
+      }
+
+      function applyEditSystemField() {
+        if (editingFieldIndex == null) return;
+        const field = SYSTEM_FIELDS[editingFieldIndex];
+        field.filter = document.getElementById("sf-advanced-filter").checked;
+        field.exportData = document.getElementById("sf-export-data").checked;
+        field.active = document.getElementById("sf-active").checked;
+        closeEditSystemFieldModal();
+        renderSystemFields(true);
+      }
+
+      function wireEditSystemFieldModal() {
+        const modal = document.getElementById("edit-system-field-modal");
+        modal.querySelectorAll("[data-close-modal]").forEach((el) => {
+          el.addEventListener("click", closeEditSystemFieldModal);
+        });
+        document.getElementById("sf-modify").addEventListener("click", applyEditSystemField);
+        document.getElementById("sf-remove").addEventListener("click", () => {
+          if (editingFieldIndex == null) return;
+          if (confirm("Remove this system field from the list?")) {
+            SYSTEM_FIELDS.splice(editingFieldIndex, 1);
+            closeEditSystemFieldModal();
+            renderSystemFields(true);
+          }
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !modal.hidden) closeEditSystemFieldModal();
+        });
+      }
+
+      function wireSystemRowActions() {
+        document.getElementById("system-rows").addEventListener("click", (e) => {
+          const btn = e.target.closest("[data-edit-system]");
+          if (!btn) return;
+          openEditSystemFieldModal(Number(btn.dataset.editSystem));
+        });
+      }
+
       function renderSystemFields(expanded) {
         const host = document.getElementById("system-rows");
         const head = host.querySelector(".t_head");
-        const limit = expanded ? SYSTEM_FIELDS.length : INITIAL_VISIBLE;
         const rows = SYSTEM_FIELDS.map(rowHtml).join("");
         const toggle = `
           <div class="t_row view-size-toggle">
@@ -303,6 +464,8 @@
 
       renderSystemFields(true);
       wireSearch();
+      wireEditSystemFieldModal();
+      wireSystemRowActions();
     </script>
   </body>
 </html>
