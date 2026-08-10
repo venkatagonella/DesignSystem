@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Job Fields — Real-time CRM Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/pds-tokens.css" />
+    <link rel="stylesheet" href="../../styles/job-fields-settings.css" />
+  </head>
+  <body>
+    <header class="crm-topbar">
+      <div class="brand">Phenom CRM</div>
+      <div class="crumb">Dashboard / Settings / Job Fields</div>
+    </header>
+
+    <div class="setting-page-blog">
+      <aside class="setting-menu" aria-label="Settings">
+        <nav class="setting-menu-list">
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Feature Flags</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">My Account</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Application Fields</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Branding</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Candidate Fields</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Company Watchlist</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Default Templates</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Email Management</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Hiring Statuses</a></div>
+          <div class="menu-item-label">
+            <a class="menu-item-link nav-active-link" href="#" aria-current="page">Job Fields</a>
+          </div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Job Fields Grouping</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Note Types</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Notifications</a></div>
+          <div class="menu-item-label"><a class="menu-item-link" href="#">Tags</a></div>
+        </nav>
+      </aside>
+
+      <main class="setting-data">
+        <div id="job-fields">
+          <div class="job-fields-page">
+            <div class="list-container">
+              <div class="display-header">
+                <div class="title">Job Fields</div>
+              </div>
+
+              <!-- Additional Fields -->
+              <section class="field-list" id="additional-fields-card">
+                <div class="header-section">
+                  <div class="header-row">
+                    <div class="header-lt">
+                      <div class="header-title">Additional Fields</div>
+                      <div class="header-sub-title">Added and editable fields</div>
+                    </div>
+                    <div class="header-rt">
+                      <div class="search-field">
+                        <input
+                          type="search"
+                          placeholder="Search field"
+                          data-filter-target="additional-rows"
+                          aria-label="Search additional fields"
+                        />
+                      </div>
+                      <button class="btn btn-secondary" type="button">+ Add Additional Field</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="saperator"></div>
+                <section class="data-section">
+                  <div class="t_row t_head">
+                    <div class="t_head field_label"><span class="field_label_text">Display Name</span></div>
+                    <div class="t_head field_type"><span class="field_label_text">Type</span></div>
+                    <div class="t_head field_status"><span class="field_label_text">Active</span></div>
+                    <div class="t_head field_edit"><span>&nbsp;</span></div>
+                  </div>
+                  <div class="t_row" data-row data-name="custom department code">
+                    <div class="t_data field_label txt">
+                      <span class="item-name">Custom Department Code</span>
+                    </div>
+                    <div class="t_data field_type txt"><span class="item-type">Text Box</span></div>
+                    <div class="t_data field_status_value">
+                      <label class="toggle"
+                        ><input type="checkbox" checked /><span class="slider"></span
+                      ></label>
+                    </div>
+                    <div class="t_data field_edit">
+                      <span class="field_edit_wrapper"
+                        ><button class="icon-btn" type="button" title="Edit field" aria-label="Edit field">✎</button></span
+                      >
+                    </div>
+                  </div>
+                  <div class="t_row" data-row data-name="cost center">
+                    <div class="t_data field_label txt"><span class="item-name">Cost Center</span></div>
+                    <div class="t_data field_type txt"><span class="item-type">Dropdown</span></div>
+                    <div class="t_data field_status_value">
+                      <label class="toggle"
+                        ><input type="checkbox" checked /><span class="slider"></span
+                      ></label>
+                    </div>
+                    <div class="t_data field_edit">
+                      <span class="field_edit_wrapper"
+                        ><button class="icon-btn" type="button" title="Edit field" aria-label="Edit field">✎</button></span
+                      >
+                    </div>
+                  </div>
+                </section>
+              </section>
+
+              <!-- System Fields -->
+              <section class="field-list" id="system-fields-card">
+                <div class="header-section">
+                  <div class="header-row">
+                    <div class="header-lt">
+                      <div class="header-title">System Fields</div>
+                      <div class="header-sub-title">Created by default</div>
+                    </div>
+                    <div class="header-rt">
+                      <div class="search-field">
+                        <input
+                          type="search"
+                          placeholder="Search field"
+                          data-filter-target="system-rows"
+                          aria-label="Search system fields"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="saperator"></div>
+                <section class="data-section" id="system-rows">
+                  <div class="t_row t_head five_col">
+                    <div class="t_head field_label"><span class="field_label_text">Display Name</span></div>
+                    <div class="t_head field_type"><span class="field_label_text">Type</span></div>
+                    <div class="t_head show_on_filter_label">
+                      <span class="field_label_text">Show in Advanced Filter</span>
+                    </div>
+                    <div class="t_head field_status"><span class="field_label_text">Active</span></div>
+                    <div class="t_head field_edit"><span>&nbsp;</span></div>
+                  </div>
+                  <!-- rows injected by script from JOBS_SYSTEM_FIELD_LIST + new scheduler fields -->
+                </section>
+              </section>
+            </div>
+          </div>
+
+          <footer class="crm-footer">
+            <div class="action-bar">
+              <button class="btn btn-primary" type="button" id="save-changes">Save Changes</button>
+            </div>
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const TYPE_LABELS = {
+        "TEXT-BOX": "Text Box",
+        "DATE-PICKER": "Date",
+        "SELECT-BOX": "Dropdown",
+        TEXTAREA: "Text Area",
+      };
+
+      // Source: cp_ui_app_2.0 JobCommonConstants.JOBS_SYSTEM_FIELD_LIST
+      // plus requested scheduler fields appended under System Fields.
+      const SYSTEM_FIELDS = [
+        { label: "Job Title", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Score", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Job Id", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Job Code", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Branch", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Job Status", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Leads", type: "TEXT-BOX", active: true, filter: false },
+        { label: "Branding", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Company", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Language", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Published", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Hiring Manager", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Job Type", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Job Posting Status", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Job Priority", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Created Date", type: "DATE-PICKER", active: true, filter: true },
+        { label: "Job Category", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Assigned To", type: "TEXT-BOX", active: true, filter: false },
+        { label: "ATS Job Id", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Posted Date", type: "DATE-PICKER", active: true, filter: true },
+        { label: "Updated Date", type: "DATE-PICKER", active: true, filter: true },
+        { label: "Expiry Date", type: "DATE-PICKER", active: true, filter: true },
+        { label: "Sub Category", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Available Openings", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Ref #", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Business", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Business Segment", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Evergreen Job", type: "SELECT-BOX", active: false, filter: true },
+        { label: "Source", type: "TEXT-BOX", active: true, filter: true },
+        { label: "Department", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Agency List", type: "TEXT-BOX", active: false, filter: true },
+        { label: "Screening Count", type: "TEXT-BOX", active: true, filter: false },
+        { label: "Job Location", type: "TEXT-BOX", active: true, filter: false },
+        {
+          label: "Job Posting Scheduler",
+          type: "DATE-PICKER",
+          active: true,
+          filter: true,
+          isNew: true,
+        },
+        {
+          label: "Job Unpost Scheduler",
+          type: "DATE-PICKER",
+          active: true,
+          filter: true,
+          isNew: true,
+        },
+      ];
+
+      const INITIAL_VISIBLE = 5;
+
+      function rowHtml(field, index) {
+        const typeLabel = TYPE_LABELS[field.type] || field.type;
+        const newBadge = field.isNew ? `<span class="new-badge">New</span>` : "";
+        return `
+          <div class="t_row five_col ${field.isNew ? "is-new" : ""}" data-row data-name="${field.label.toLowerCase()}" data-index="${index}">
+            <div class="t_data field_label txt" title="${field.label}">
+              <span class="item-name">${field.label}</span>${newBadge}
+            </div>
+            <div class="t_data field_type txt"><span class="item-type">${typeLabel}</span></div>
+            <div class="t_data show_on_filter">
+              ${field.filter ? `<div class="visibility" aria-label="Shown in advanced filter">✓</div>` : ""}
+            </div>
+            <div class="t_data field_status_value">
+              <label class="toggle">
+                <input type="checkbox" ${field.active ? "checked" : ""} ${field.label === "Score" ? "disabled" : ""} />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="t_data field_edit">
+              <span class="field_edit_wrapper">
+                <button class="icon-btn" type="button" title="Edit field" aria-label="Edit ${field.label}">✎</button>
+              </span>
+            </div>
+          </div>`;
+      }
+
+      function renderSystemFields(expanded) {
+        const host = document.getElementById("system-rows");
+        const head = host.querySelector(".t_head");
+        const limit = expanded ? SYSTEM_FIELDS.length : INITIAL_VISIBLE;
+        const rows = SYSTEM_FIELDS.map(rowHtml).join("");
+        const toggle = `
+          <div class="t_row view-size-toggle">
+            <button class="btn-naked" type="button" id="toggle-system-view">
+              ${expanded ? "Show Less ▲" : "Show More ▼"}
+            </button>
+          </div>`;
+        host.innerHTML = head.outerHTML + rows + toggle;
+
+        // Apply collapsed visibility
+        host.querySelectorAll("[data-row]").forEach((el) => {
+          const idx = Number(el.dataset.index);
+          if (!expanded && idx >= INITIAL_VISIBLE) el.classList.add("row-hidden");
+        });
+
+        // Keep new scheduler fields visible even when collapsed
+        if (!expanded) {
+          host.querySelectorAll(".is-new").forEach((el) => el.classList.remove("row-hidden"));
+        }
+
+        document.getElementById("toggle-system-view").addEventListener("click", () => {
+          renderSystemFields(!expanded);
+        });
+      }
+
+      function wireSearch() {
+        document.querySelectorAll("input[data-filter-target]").forEach((input) => {
+          input.addEventListener("input", () => {
+            const key = input.value.trim().toLowerCase();
+            const card =
+              input.dataset.filterTarget === "system-rows"
+                ? document.getElementById("system-fields-card")
+                : document.getElementById("additional-fields-card");
+            card.querySelectorAll("[data-row]").forEach((row) => {
+              const name = row.dataset.name || "";
+              row.classList.toggle("row-hidden", key && !name.includes(key));
+            });
+          });
+        });
+      }
+
+      document.getElementById("save-changes").addEventListener("click", () => {
+        const btn = document.getElementById("save-changes");
+        const prev = btn.textContent;
+        btn.textContent = "Saved";
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = prev;
+          btn.disabled = false;
+        }, 1200);
+      });
+
+      renderSystemFields(true);
+      wireSearch();
+    </script>
+  </body>
+</html>
