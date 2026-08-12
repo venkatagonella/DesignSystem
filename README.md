@@ -12,7 +12,7 @@ This repo is **not** the npm source of `@phenom/angular-ds`. It is the Cursor-fa
 | `.cursor/rules/phenom-design-system.mdc` | Always-on rule when this workspace is open |
 | `styles/pds-tokens.css` | **Referrable** CSS custom properties (from published Storybook) |
 | `styles/pds-utilities.css` | HTML utility classes for static samples |
-| `templates/html/` | Sample page using those styles |
+| `templates/html/` | Sample pages (Jobs dashboard, Job Fields, sample) |
 | `templates/angular/`, `templates/react/` | Package install / usage notes |
 | `references/` | Catalog JSON + selector list |
 | `AGENTS.md` | Agent entrypoint for this workspace |
@@ -99,7 +99,27 @@ Open in a browser:
 
 ```text
 templates/html/sample-page.html
+templates/html/jobs-dashboard.html
+templates/html/job-fields-settings.html
 ```
+
+## Local host (Jobs dashboard)
+
+From the repo root, start a static server (no private npm packages required):
+
+```bash
+python3 -m http.server 8080
+```
+
+Then open:
+
+```text
+http://localhost:8080/templates/html/jobs-dashboard.html
+```
+
+The Jobs sample uses an expandable left nav modeled on PDS Storybook
+[SidebarNavigation — Expanded](https://pds.phenom.com/angular/index.html?path=/story/navigation-sidebarnavigation--expanded).
+Use the « / » control to collapse (icons only) and expand (icons + labels).
 
 ## Refreshing tokens
 
