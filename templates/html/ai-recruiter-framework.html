@@ -299,13 +299,13 @@
         display: none !important;
       }
 
-      /* Dashboards main view */
+      /* Dashboards main view — pipeline / analytics style */
       .dash-page {
         flex: 1;
         min-width: 0;
         padding: 16px 24px 32px;
         overflow: auto;
-        background: #fff;
+        background: #f4f6fa;
       }
 
       .dash-page__header {
@@ -314,12 +314,14 @@
         justify-content: space-between;
         gap: 16px;
         margin-bottom: 16px;
+        flex-wrap: wrap;
       }
 
       .dash-page__title {
         font-size: 20px;
         font-weight: 600;
         line-height: 28px;
+        color: #1f2937;
       }
 
       .dash-page__sub {
@@ -328,9 +330,42 @@
         color: #637085;
       }
 
+      .dash-page__prompt-tag {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #eeedf9;
+        color: #2927b2;
+        font-size: 12px;
+        font-weight: 500;
+        max-width: 520px;
+      }
+
+      .dash-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .dash-date-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid #d1d5dc;
+        border-radius: 6px;
+        background: #fff;
+        font-size: 12px;
+        font-weight: 500;
+        color: #1f2937;
+      }
+
       .dash-metrics {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 12px;
         margin-bottom: 16px;
       }
@@ -340,6 +375,7 @@
         border: 1px solid #e8eaee;
         border-radius: 8px;
         background: #fff;
+        box-shadow: 0 1px 2px rgba(12, 11, 59, 0.04);
       }
 
       .dash-metric__label {
@@ -366,28 +402,93 @@
         color: #c40f24;
       }
 
+      .dash-grid {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+
+      @media (max-width: 1100px) {
+        .dash-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
       .dash-chart-card {
         border: 1px solid #e8eaee;
         border-radius: 8px;
-        padding: 16px;
+        padding: 16px 16px 12px;
         background: #fff;
+        box-shadow: 0 1px 2px rgba(12, 11, 59, 0.04);
+      }
+
+      .dash-chart-card__head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
       }
 
       .dash-chart-card__title {
         margin: 0 0 4px;
         font-size: 15px;
         font-weight: 600;
+        color: #1f2937;
       }
 
       .dash-chart-card__sub {
-        margin: 0 0 12px;
+        margin: 0;
         font-size: 12px;
         color: #637085;
       }
 
+      .dash-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 11px;
+        color: #637085;
+        margin-top: 4px;
+      }
+
+      .dash-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .dash-legend i {
+        width: 16px;
+        height: 3px;
+        border-radius: 2px;
+        display: inline-block;
+      }
+
+      .dash-legend i.jobs {
+        background: #2927b2;
+      }
+
+      .dash-legend i.trend {
+        background: #ef6820;
+        background-image: repeating-linear-gradient(
+          90deg,
+          #ef6820 0 4px,
+          transparent 4px 8px
+        );
+      }
+
       .dash-chart-wrap {
         position: relative;
-        height: 280px;
+        height: 320px;
+        background: linear-gradient(180deg, #fafbff 0%, #fff 100%);
+        border-radius: 6px;
+        padding: 8px 4px 0;
+      }
+
+      .dash-chart-wrap--sm {
+        height: 240px;
       }
 
       .dash-empty {
@@ -397,6 +498,7 @@
         border-radius: 8px;
         color: #637085;
         font-size: 14px;
+        background: #fff;
       }
 
       .dash-empty strong {
@@ -404,6 +506,11 @@
         color: #1f2937;
         margin-bottom: 6px;
         font-size: 15px;
+      }
+
+      .dash-content[hidden],
+      .dash-empty[hidden] {
+        display: none !important;
       }
 
       /* X+ floating prompt */
@@ -560,6 +667,62 @@
         border-color: #4d3ee0;
         color: #2927b2;
         background: #eeedf9;
+      }
+
+      .xplus-demos {
+        padding: 10px 12px 12px;
+        border-bottom: 1px solid #e8eaee;
+        background: #fff;
+        flex-shrink: 0;
+      }
+
+      .xplus-demos__label {
+        margin: 0 0 8px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #637085;
+      }
+
+      .xplus-demo-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .xplus-demo {
+        appearance: none;
+        width: 100%;
+        text-align: left;
+        border: 1px solid #e8eaee;
+        border-radius: 8px;
+        background: #fafbfc;
+        padding: 10px 12px;
+        cursor: pointer;
+        font: inherit;
+        transition: border-color 0.15s ease, background 0.15s ease;
+      }
+
+      .xplus-demo:hover,
+      .xplus-demo.is-active {
+        border-color: #4d3ee0;
+        background: #eeedf9;
+      }
+
+      .xplus-demo__title {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 2px;
+      }
+
+      .xplus-demo__prompt {
+        display: block;
+        font-size: 11px;
+        color: #637085;
+        line-height: 1.35;
       }
 
       .xplus-messages {
@@ -1091,57 +1254,84 @@
               </div>
             </main>
 
-            <!-- Dashboards panel -->
+            <!-- Dashboards panel — created from X+ prompt -->
             <section class="dash-page crm-panel" id="panel-dashboards" hidden>
               <div class="dash-page__header">
                 <div>
-                  <div class="dash-page__title">Dashboards</div>
+                  <div class="dash-page__title" id="dash-title">Dashboards</div>
                   <p class="dash-page__sub" id="dash-subtitle">
-                    Ask X+ an insight question to load a live chart here — or open a sample below.
+                    Ask X+ an insight question — a chart dashboard will build here on the left.
                   </p>
+                  <span class="dash-page__prompt-tag" id="dash-prompt-tag" hidden></span>
                 </div>
-                <button class="pp-ds-button pp-ds-button--secondary" type="button" id="dash-load-sample">
-                  Show sample: jobs last 1 month
-                </button>
-              </div>
-
-              <div class="dash-metrics" id="dash-metrics" hidden>
-                <div class="dash-metric">
-                  <div class="dash-metric__label">Jobs created (30 days)</div>
-                  <div class="dash-metric__value" id="metric-total">—</div>
-                  <div class="dash-metric__hint" id="metric-trend">—</div>
-                </div>
-                <div class="dash-metric">
-                  <div class="dash-metric__label">Weekly average</div>
-                  <div class="dash-metric__value" id="metric-avg">—</div>
-                  <div class="dash-metric__hint">Across the period</div>
-                </div>
-                <div class="dash-metric">
-                  <div class="dash-metric__label">Peak week</div>
-                  <div class="dash-metric__value" id="metric-peak">—</div>
-                  <div class="dash-metric__hint" id="metric-peak-label">—</div>
-                </div>
-                <div class="dash-metric">
-                  <div class="dash-metric__label">Your trendline</div>
-                  <div class="dash-metric__value" id="metric-slope">—</div>
-                  <div class="dash-metric__hint">Direction for this recruiter</div>
-                </div>
-              </div>
-
-              <div class="dash-chart-card" id="dash-chart-card" hidden>
-                <h3 class="dash-chart-card__title">Jobs created over time</h3>
-                <p class="dash-chart-card__sub" id="dash-chart-sub">
-                  Timeline (X) · Jobs created (Y) · Trendline for the asking recruiter
-                </p>
-                <div class="dash-chart-wrap">
-                  <canvas id="dash-main-chart" aria-label="Jobs created timeline chart"></canvas>
+                <div class="dash-toolbar">
+                  <span class="dash-date-pill" id="dash-date-pill" hidden>📅 Last 30 days</span>
+                  <button class="pp-ds-button pp-ds-button--secondary" type="button" id="dash-load-sample">
+                    Load jobs last 1 month
+                  </button>
                 </div>
               </div>
 
               <div class="dash-empty" id="dash-empty">
-                <strong>No insight loaded yet</strong>
-                Open X+ and ask: “How many jobs have been created in the last 1 month?”
-                The chart and metrics will appear here on the left.
+                <strong>No dashboard yet</strong>
+                Open X+ and pick a demo insight — or ask “How many jobs have been created in the last 1 month?”
+              </div>
+
+              <div class="dash-content" id="dash-content" hidden>
+                <div class="dash-metrics" id="dash-metrics">
+                  <div class="dash-metric">
+                    <div class="dash-metric__label" id="m1-label">Jobs created (30 days)</div>
+                    <div class="dash-metric__value" id="metric-total">—</div>
+                    <div class="dash-metric__hint" id="metric-trend">—</div>
+                  </div>
+                  <div class="dash-metric">
+                    <div class="dash-metric__label" id="m2-label">Weekly average</div>
+                    <div class="dash-metric__value" id="metric-avg">—</div>
+                    <div class="dash-metric__hint" id="m2-hint">Across the period</div>
+                  </div>
+                  <div class="dash-metric">
+                    <div class="dash-metric__label" id="m3-label">Peak day</div>
+                    <div class="dash-metric__value" id="metric-peak">—</div>
+                    <div class="dash-metric__hint" id="metric-peak-label">—</div>
+                  </div>
+                  <div class="dash-metric">
+                    <div class="dash-metric__label" id="m4-label">Your trendline</div>
+                    <div class="dash-metric__value" id="metric-slope">—</div>
+                    <div class="dash-metric__hint">For this recruiter</div>
+                  </div>
+                </div>
+
+                <div class="dash-grid">
+                  <div class="dash-chart-card" id="dash-chart-card">
+                    <div class="dash-chart-card__head">
+                      <div>
+                        <h3 class="dash-chart-card__title" id="dash-chart-title">Jobs created over time</h3>
+                        <p class="dash-chart-card__sub" id="dash-chart-sub">
+                          Timeline on X · Count on Y · Trendline for asking recruiter
+                        </p>
+                      </div>
+                      <div class="dash-legend" aria-hidden="true">
+                        <span><i class="jobs"></i> Jobs created</span>
+                        <span><i class="trend"></i> Your trendline</span>
+                      </div>
+                    </div>
+                    <div class="dash-chart-wrap">
+                      <canvas id="dash-main-chart" aria-label="Jobs created timeline chart"></canvas>
+                    </div>
+                  </div>
+
+                  <div class="dash-chart-card" id="dash-side-card">
+                    <div class="dash-chart-card__head">
+                      <div>
+                        <h3 class="dash-chart-card__title" id="dash-side-title">Jobs by category</h3>
+                        <p class="dash-chart-card__sub" id="dash-side-sub">Same period · breakdown</p>
+                      </div>
+                    </div>
+                    <div class="dash-chart-wrap dash-chart-wrap--sm">
+                      <canvas id="dash-side-chart" aria-label="Jobs by category chart"></canvas>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
           </div>
@@ -1165,14 +1355,35 @@
               <button type="button" class="xplus-action" data-action="pipeline">Pipeline health</button>
               <button type="button" class="xplus-action" data-action="summarize">Summarize</button>
               <button type="button" class="xplus-action" data-action="fairness">Fairness</button>
-              <button type="button" class="xplus-action" data-action="insight">Jobs last 1 month</button>
+            </div>
+
+            <div class="xplus-demos" aria-label="Demo insight prompts">
+              <p class="xplus-demos__label">Demo insights → builds left dashboard</p>
+              <div class="xplus-demo-list">
+                <button type="button" class="xplus-demo" data-demo="jobs-month">
+                  <span class="xplus-demo__title">Jobs created · last 1 month</span>
+                  <span class="xplus-demo__prompt">How many jobs have been created in the last 1 month?</span>
+                </button>
+                <button type="button" class="xplus-demo" data-demo="applicants-week">
+                  <span class="xplus-demo__title">Applicants · last 4 weeks</span>
+                  <span class="xplus-demo__prompt">Show applicants over the last 4 weeks with my trend.</span>
+                </button>
+                <button type="button" class="xplus-demo" data-demo="open-jobs">
+                  <span class="xplus-demo__title">Open jobs by week</span>
+                  <span class="xplus-demo__prompt">How are my open jobs trending week by week?</span>
+                </button>
+                <button type="button" class="xplus-demo" data-demo="time-to-fill">
+                  <span class="xplus-demo__title">Time to fill · last 1 month</span>
+                  <span class="xplus-demo__prompt">What’s my average time to fill in the last month?</span>
+                </button>
+              </div>
             </div>
 
             <div class="xplus-messages" id="xplus-messages" aria-live="polite">
               <div class="xplus-msg xplus-msg--bot">
                 <span class="xplus-msg__meta">X+</span>
-                Hi — I’m your AI Recruiter. Use a top action, or ask an insight question like
-                “how many jobs have been created in the last 1 month”.
+                Hi — I’m your AI Recruiter. Pick a <strong>demo insight</strong> below to build a chart
+                dashboard on the left, or type a question like “how many jobs have been created in the last 1 month”.
               </div>
             </div>
 
@@ -1198,14 +1409,108 @@
 
     <script>
       (function () {
-        /* —— Mock jobs-created series (last ~5 weeks by day labels) —— */
-        const JOBS_LAST_MONTH = {
-          labels: [
-            "Aug 25", "Aug 28", "Aug 31", "Sep 3", "Sep 6", "Sep 9",
-            "Sep 12", "Sep 15", "Sep 18", "Sep 21", "Sep 24", "Sep 27"
-          ],
-          values: [3, 5, 2, 6, 4, 7, 5, 8, 6, 9, 7, 10],
-          recruiter: "You (recruiter)"
+        const RECRUITER = "You (recruiter)";
+
+        /* —— Demo datasets (prompt → left dashboard) —— */
+        const DEMOS = {
+          "jobs-month": {
+            id: "jobs-month",
+            title: "Jobs created · last 1 month",
+            prompt: "How many jobs have been created in the last 1 month?",
+            period: "Last 30 days",
+            seriesLabel: "Jobs created",
+            yTitle: "Jobs created",
+            chartTitle: "Jobs created over time",
+            chartSub: "Candidate-style timeline chart · X = date · Y = jobs · dashed = your trendline",
+            sideTitle: "Jobs by category",
+            sideSub: "Same 30-day window",
+            m1: "Jobs created (30 days)",
+            m2: "Weekly average",
+            m3: "Peak day",
+            m4: "Your trendline",
+            labels: [
+              "Aug 28", "Aug 31", "Sep 3", "Sep 6", "Sep 9", "Sep 12",
+              "Sep 15", "Sep 18", "Sep 21", "Sep 24", "Sep 27", "Sep 28"
+            ],
+            values: [2, 4, 3, 6, 5, 7, 4, 8, 6, 9, 7, 5],
+            categories: {
+              labels: ["Engineering", "Design", "Sales", "CS", "HR"],
+              values: [22, 9, 14, 11, 8]
+            },
+            replyPrefix: "jobs were created"
+          },
+          "applicants-week": {
+            id: "applicants-week",
+            title: "Applicants · last 4 weeks",
+            prompt: "Show applicants over the last 4 weeks with my trend.",
+            period: "Last 4 weeks",
+            seriesLabel: "Applicants",
+            yTitle: "Applicants",
+            chartTitle: "Applicants over time",
+            chartSub: "Weekly timeline · X = week · Y = applicants · dashed = your trendline",
+            sideTitle: "Applicants by source",
+            sideSub: "Same 4-week window",
+            m1: "Applicants (4 weeks)",
+            m2: "Weekly average",
+            m3: "Peak week",
+            m4: "Your trendline",
+            labels: ["Week 1", "Week 2", "Week 3", "Week 4", "W1+", "W2+", "W3+", "W4+"],
+            values: [42, 38, 51, 47, 55, 49, 61, 58],
+            categories: {
+              labels: ["Career site", "LinkedIn", "Referral", "Agency", "Other"],
+              values: [120, 95, 48, 32, 21]
+            },
+            replyPrefix: "applicants came in"
+          },
+          "open-jobs": {
+            id: "open-jobs",
+            title: "Open jobs by week",
+            prompt: "How are my open jobs trending week by week?",
+            period: "Last 8 weeks",
+            seriesLabel: "Open jobs",
+            yTitle: "Open jobs",
+            chartTitle: "Open jobs trend",
+            chartSub: "Week timeline · X = week · Y = open jobs · dashed = your trendline",
+            sideTitle: "Open jobs by status age",
+            sideSub: "Current snapshot",
+            m1: "Open jobs (now)",
+            m2: "Weekly average",
+            m3: "Peak week",
+            m4: "Your trendline",
+            labels: ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"],
+            values: [18, 19, 21, 20, 22, 24, 23, 25],
+            categories: {
+              labels: ["0–14d", "15–30d", "31–60d", "60d+"],
+              values: [8, 7, 6, 4]
+            },
+            replyPrefix: "open jobs on average"
+          },
+          "time-to-fill": {
+            id: "time-to-fill",
+            title: "Time to fill · last 1 month",
+            prompt: "What’s my average time to fill in the last month?",
+            period: "Last 30 days",
+            seriesLabel: "Avg days to fill",
+            yTitle: "Days",
+            chartTitle: "Average time to fill",
+            chartSub: "Timeline · X = date · Y = days to fill · dashed = your trendline",
+            sideTitle: "Hires by category",
+            sideSub: "Same period",
+            m1: "Avg days to fill",
+            m2: "Period average",
+            m3: "Slowest day",
+            m4: "Your trendline",
+            labels: [
+              "Aug 28", "Aug 31", "Sep 3", "Sep 6", "Sep 9", "Sep 12",
+              "Sep 15", "Sep 18", "Sep 21", "Sep 24", "Sep 27", "Sep 28"
+            ],
+            values: [34, 32, 31, 33, 30, 29, 28, 27, 29, 26, 25, 24],
+            categories: {
+              labels: ["Engineering", "Design", "Sales", "CS", "HR"],
+              values: [6, 3, 5, 4, 2]
+            },
+            replyPrefix: "avg days to fill across the period"
+          }
         };
 
         function linearTrend(values) {
@@ -1224,13 +1529,13 @@
 
         function seriesStats(values, labels) {
           const total = values.reduce((a, b) => a + b, 0);
-          const avg = +(total / (values.length / (7 / 2.5))).toFixed(1);
-          const weeklyAvg = +(total / 4).toFixed(1);
+          const weeklyAvg = +(total / Math.max(1, values.length / 3)).toFixed(1);
           let peakIdx = 0;
           values.forEach((v, i) => { if (v > values[peakIdx]) peakIdx = i; });
-          const firstHalf = values.slice(0, Math.floor(values.length / 2)).reduce((a, b) => a + b, 0);
-          const secondHalf = values.slice(Math.floor(values.length / 2)).reduce((a, b) => a + b, 0);
-          const pct = firstHalf ? Math.round(((secondHalf - firstHalf) / firstHalf) * 100) : 0;
+          const mid = Math.floor(values.length / 2);
+          const firstHalf = values.slice(0, mid).reduce((a, b) => a + b, 0) || 1;
+          const secondHalf = values.slice(mid).reduce((a, b) => a + b, 0);
+          const pct = Math.round(((secondHalf - firstHalf) / firstHalf) * 100);
           return {
             total,
             weeklyAvg,
@@ -1242,24 +1547,42 @@
         }
 
         let mainChart = null;
+        let sideChart = null;
         let miniChart = null;
 
-        function chartConfig(labels, values, trend, compact) {
+        function destroyCharts() {
+          if (mainChart) { mainChart.destroy(); mainChart = null; }
+          if (sideChart) { sideChart.destroy(); sideChart = null; }
+          if (miniChart) { miniChart.destroy(); miniChart = null; }
+        }
+
+        function lineChartConfig(demo, trend, compact) {
           return {
             type: "line",
             data: {
-              labels,
+              labels: demo.labels,
               datasets: [
                 {
-                  label: "Jobs created",
-                  data: values,
+                  label: demo.seriesLabel,
+                  data: demo.values,
                   borderColor: "#2927b2",
-                  backgroundColor: "rgba(41, 39, 178, 0.12)",
+                  backgroundColor: (ctx) => {
+                    const chart = ctx.chart;
+                    const { ctx: c, chartArea } = chart;
+                    if (!chartArea) return "rgba(41, 39, 178, 0.12)";
+                    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                    g.addColorStop(0, "rgba(41, 39, 178, 0.28)");
+                    g.addColorStop(1, "rgba(41, 39, 178, 0.02)");
+                    return g;
+                  },
                   fill: true,
                   tension: 0.35,
-                  pointRadius: compact ? 2 : 3,
-                  pointBackgroundColor: "#2927b2",
-                  borderWidth: 2
+                  pointRadius: compact ? 2 : 4,
+                  pointHoverRadius: 6,
+                  pointBackgroundColor: "#fff",
+                  pointBorderColor: "#2927b2",
+                  pointBorderWidth: 2,
+                  borderWidth: 2.5
                 },
                 {
                   label: "Your trendline",
@@ -1276,66 +1599,168 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
+              interaction: { mode: "index", intersect: false },
               plugins: {
-                legend: {
-                  display: !compact,
-                  position: "bottom",
-                  labels: { boxWidth: 12, font: { family: "Poppins", size: 11 } }
-                },
-                tooltip: { mode: "index", intersect: false }
+                legend: { display: false },
+                tooltip: {
+                  backgroundColor: "#0c0b3b",
+                  titleFont: { family: "Poppins", size: 12 },
+                  bodyFont: { family: "Poppins", size: 11 },
+                  padding: 10,
+                  cornerRadius: 6
+                }
               },
               scales: {
                 x: {
-                  title: { display: !compact, text: "Timeline", font: { family: "Poppins", size: 11 } },
-                  ticks: { font: { family: "Poppins", size: 10 }, maxRotation: 45 }
+                  grid: { color: "rgba(209, 213, 220, 0.5)", drawBorder: false },
+                  title: {
+                    display: !compact,
+                    text: "Timeline",
+                    color: "#637085",
+                    font: { family: "Poppins", size: 11, weight: "500" }
+                  },
+                  ticks: { font: { family: "Poppins", size: 10 }, color: "#637085", maxRotation: 45 }
                 },
                 y: {
                   beginAtZero: true,
-                  title: { display: !compact, text: "Jobs created", font: { family: "Poppins", size: 11 } },
-                  ticks: { stepSize: 2, font: { family: "Poppins", size: 10 } }
+                  grid: { color: "rgba(209, 213, 220, 0.65)", drawBorder: false },
+                  title: {
+                    display: !compact,
+                    text: demo.yTitle,
+                    color: "#637085",
+                    font: { family: "Poppins", size: 11, weight: "500" }
+                  },
+                  ticks: { font: { family: "Poppins", size: 10 }, color: "#637085" }
                 }
               }
             }
           };
         }
 
-        function renderMainChart(data) {
-          const trend = linearTrend(data.values);
-          const stats = seriesStats(data.values, data.labels);
-          const metrics = document.getElementById("dash-metrics");
-          const card = document.getElementById("dash-chart-card");
-          const empty = document.getElementById("dash-empty");
-          metrics.hidden = false;
-          card.hidden = false;
-          empty.hidden = true;
-          document.getElementById("metric-total").textContent = String(stats.total);
+        function barChartConfig(demo) {
+          return {
+            type: "bar",
+            data: {
+              labels: demo.categories.labels,
+              datasets: [
+                {
+                  label: demo.seriesLabel,
+                  data: demo.categories.values,
+                  backgroundColor: [
+                    "rgba(41, 39, 178, 0.85)",
+                    "rgba(77, 62, 224, 0.75)",
+                    "rgba(117, 113, 224, 0.7)",
+                    "rgba(163, 145, 242, 0.75)",
+                    "rgba(202, 193, 242, 0.9)"
+                  ],
+                  borderRadius: 6,
+                  maxBarThickness: 36
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  backgroundColor: "#0c0b3b",
+                  titleFont: { family: "Poppins", size: 12 },
+                  bodyFont: { family: "Poppins", size: 11 }
+                }
+              },
+              scales: {
+                x: {
+                  grid: { display: false },
+                  ticks: { font: { family: "Poppins", size: 10 }, color: "#637085" }
+                },
+                y: {
+                  beginAtZero: true,
+                  grid: { color: "rgba(209, 213, 220, 0.65)", drawBorder: false },
+                  ticks: { font: { family: "Poppins", size: 10 }, color: "#637085" }
+                }
+              }
+            }
+          };
+        }
+
+        function renderDashboard(demo) {
+          const trend = linearTrend(demo.values);
+          const stats = seriesStats(demo.values, demo.labels);
+
+          document.getElementById("dash-empty").hidden = true;
+          document.getElementById("dash-content").hidden = false;
+          document.getElementById("dash-date-pill").hidden = false;
+          document.getElementById("dash-date-pill").textContent = "📅 " + demo.period;
+
+          document.getElementById("dash-title").textContent = demo.title;
+          document.getElementById("dash-subtitle").textContent =
+            "Built from your X+ prompt · insight for " + RECRUITER;
+          const tag = document.getElementById("dash-prompt-tag");
+          tag.hidden = false;
+          tag.textContent = "Prompt: “" + demo.prompt + "”";
+
+          document.getElementById("m1-label").textContent = demo.m1;
+          document.getElementById("m2-label").textContent = demo.m2;
+          document.getElementById("m3-label").textContent = demo.m3;
+          document.getElementById("m4-label").textContent = demo.m4;
+
+          document.getElementById("metric-total").textContent = String(
+            demo.id === "time-to-fill" || demo.id === "open-jobs"
+              ? Math.round(stats.weeklyAvg)
+              : stats.total
+          );
           const trendEl = document.getElementById("metric-trend");
-          trendEl.textContent = (stats.up ? "↑ " : "↓ ") + Math.abs(stats.pct) + "% vs first half of period";
+          trendEl.textContent =
+            (stats.up ? "↑ " : "↓ ") + Math.abs(stats.pct) + "% vs first half";
           trendEl.classList.toggle("is-down", !stats.up);
           document.getElementById("metric-avg").textContent = String(stats.weeklyAvg);
           document.getElementById("metric-peak").textContent = String(stats.peak);
           document.getElementById("metric-peak-label").textContent = "On " + stats.peakLabel;
           document.getElementById("metric-slope").textContent = stats.up ? "Rising" : "Cooling";
-          document.getElementById("dash-subtitle").textContent =
-            "Insight for " + data.recruiter + " · last ~30 days (sample data)";
-          document.getElementById("dash-chart-sub").textContent =
-            "X = timeline · Y = jobs created · dashed orange = your trendline";
 
-          const canvas = document.getElementById("dash-main-chart");
-          if (mainChart) mainChart.destroy();
-          mainChart = new Chart(canvas, chartConfig(data.labels, data.values, trend, false));
+          document.getElementById("dash-chart-title").textContent = demo.chartTitle;
+          document.getElementById("dash-chart-sub").textContent = demo.chartSub;
+          document.getElementById("dash-side-title").textContent = demo.sideTitle;
+          document.getElementById("dash-side-sub").textContent = demo.sideSub;
+
+          destroyCharts();
+          mainChart = new Chart(
+            document.getElementById("dash-main-chart"),
+            lineChartConfig(demo, trend, false)
+          );
+          sideChart = new Chart(
+            document.getElementById("dash-side-chart"),
+            barChartConfig(demo)
+          );
         }
 
-        function appendMiniChart(container, data) {
+        function appendMiniChart(container, demo) {
           const wrap = document.createElement("div");
-          wrap.style.height = "140px";
+          wrap.style.height = "150px";
           wrap.style.marginTop = "8px";
           const canvas = document.createElement("canvas");
           wrap.appendChild(canvas);
           container.appendChild(wrap);
-          const trend = linearTrend(data.values);
+          const trend = linearTrend(demo.values);
           if (miniChart) miniChart.destroy();
-          miniChart = new Chart(canvas, chartConfig(data.labels, data.values, trend, true));
+          miniChart = new Chart(canvas, lineChartConfig(demo, trend, true));
+        }
+
+        function matchDemoFromText(text) {
+          const t = text.toLowerCase();
+          if (
+            (t.includes("job") && (t.includes("created") || t.includes("create")) &&
+              (t.includes("month") || t.includes("30"))) ||
+            t.includes("jobs last 1 month") ||
+            t.includes("jobs created")
+          ) {
+            return DEMOS["jobs-month"];
+          }
+          if (t.includes("applicant")) return DEMOS["applicants-week"];
+          if (t.includes("open job")) return DEMOS["open-jobs"];
+          if (t.includes("time to fill") || t.includes("ttf")) return DEMOS["time-to-fill"];
+          return null;
         }
 
         /* —— App tabs —— */
@@ -1389,7 +1814,6 @@
           panelDash.hidden = !isDash;
           crumb.textContent = isDash ? "Dashboard / Dashboards" : "Dashboard / Jobs";
           document.querySelectorAll("#sidebar-nav .px-sidebar-menu-item").forEach((a) => {
-            const on = a.dataset.navId === id || (!isDash && a.dataset.navId === "jobs" && id === "jobs");
             const active = a.dataset.navId === (isDash ? "dashboards" : "jobs");
             a.classList.toggle("is-active", active);
             if (active) a.setAttribute("aria-current", "page");
@@ -1429,7 +1853,7 @@
           });
         });
 
-        /* —— X+ panel open/close —— */
+        /* —— X+ panel —— */
         const shell = document.getElementById("jobs-shell");
         const fab = document.getElementById("xplus-fab");
         const panel = document.getElementById("xplus-panel");
@@ -1453,8 +1877,7 @@
           book: "Book interviews for shortlisted candidates.",
           pipeline: "Show pipeline health and who needs attention today.",
           summarize: "Summarize candidates for the hiring manager.",
-          fairness: "Check screening for fairness and explainability.",
-          insight: "How many jobs have been created in the last 1 month?"
+          fairness: "Check screening for fairness and explainability."
         };
 
         function addMsg(text, who) {
@@ -1472,42 +1895,45 @@
           return div;
         }
 
-        function isJobsInsightQuestion(text) {
-          const t = text.toLowerCase();
-          return (
-            (t.includes("how many") || t.includes("jobs created") || t.includes("last 1 month") ||
-              t.includes("last month") || t.includes("past month") || t.includes("30 day")) &&
-            (t.includes("job") || t.includes("created") || t.includes("month"))
-          ) || t.includes("jobs last 1 month");
-        }
-
-        function answerInsight() {
+        function runInsightDemo(demo) {
           showCrmPanel("dashboards");
-          renderMainChart(JOBS_LAST_MONTH);
-          const stats = seriesStats(JOBS_LAST_MONTH.values, JOBS_LAST_MONTH.labels);
+          renderDashboard(demo);
+          const stats = seriesStats(demo.values, demo.labels);
+          const headline =
+            demo.id === "time-to-fill" || demo.id === "open-jobs"
+              ? Math.round(stats.weeklyAvg)
+              : stats.total;
           const bot = addMsg(
-            "In the last ~30 days, " +
-              stats.total +
-              " jobs were created. That’s " +
+            "Built a dashboard on the left for “" +
+              demo.prompt +
+              "”. " +
+              headline +
+              " " +
+              demo.replyPrefix +
+              ". Trend is " +
               (stats.up ? "up" : "down") +
               " " +
               Math.abs(stats.pct) +
-              "% vs the first half of the period. I’ve opened Dashboards on the left with the timeline (X), jobs created (Y), and your trendline.",
+              "% vs the first half of the period. Chart style mirrors Phenom pipeline analytics (timeline + trendline).",
             "bot"
           );
-          appendMiniChart(bot, JOBS_LAST_MONTH);
+          appendMiniChart(bot, demo);
         }
 
         function handleUserText(text) {
           const trimmed = text.trim();
           if (!trimmed) return;
           addMsg(trimmed, "user");
-          if (isJobsInsightQuestion(trimmed)) {
-            answerInsight();
+          const demo = matchDemoFromText(trimmed);
+          if (demo) {
+            runInsightDemo(demo);
+            document.querySelectorAll(".xplus-demo").forEach((b) => {
+              b.classList.toggle("is-active", b.dataset.demo === demo.id);
+            });
             return;
           }
           addMsg(
-            "Got it. I can help with that using the AI Recruiter tasks — or ask an insight like “how many jobs have been created in the last 1 month”.",
+            "Got it. Pick a demo insight above to build a left-side chart dashboard, or ask about jobs created in the last 1 month.",
             "bot"
           );
         }
@@ -1521,6 +1947,18 @@
           });
         });
 
+        document.querySelectorAll(".xplus-demo").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".xplus-demo").forEach((b) => b.classList.remove("is-active"));
+            btn.classList.add("is-active");
+            const demo = DEMOS[btn.dataset.demo];
+            if (!demo) return;
+            setXplusOpen(true);
+            addMsg(demo.prompt, "user");
+            runInsightDemo(demo);
+          });
+        });
+
         document.getElementById("xplus-form").addEventListener("submit", (e) => {
           e.preventDefault();
           const input = document.getElementById("xplus-input");
@@ -1530,10 +1968,9 @@
         });
 
         document.getElementById("dash-load-sample").addEventListener("click", () => {
-          renderMainChart(JOBS_LAST_MONTH);
+          renderDashboard(DEMOS["jobs-month"]);
         });
 
-        /* Deep-link: ?tab=crm or #crm */
         if (
           new URLSearchParams(location.search).get("tab") === "crm" ||
           location.hash === "#crm"
