@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Master Tables Hierarchy — Reference Data</title>
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --muted: #5c5c5c;
+      --border: #e2e2de;
+      --accent: #0b5fff;
+      --code-bg: #f0f0ec;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+    header p {
+      margin: 0 0 24px;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+    .legend {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .legend code {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .toolbar button {
+      font: inherit;
+      font-size: 0.875rem;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+    details.entity {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    details.entity > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    details.entity > summary::-webkit-details-marker { display: none; }
+    details.entity > summary::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 7px solid var(--muted);
+      transition: transform 0.15s ease;
+      flex-shrink: 0;
+    }
+    details.entity[open] > summary::before {
+      transform: rotate(90deg);
+    }
+    details.entity > summary .badge {
+      margin-left: auto;
+      font-weight: 400;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--code-bg);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .body {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .note {
+      margin: 12px 0;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    pre.tree {
+      margin: 0 0 12px;
+      padding: 12px;
+      background: var(--code-bg);
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: pre;
+    }
+    details.child {
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    details.child > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 10px 4px;
+      font-weight: 500;
+      font-size: 0.9375rem;
+      font-family: var(--mono);
+    }
+    details.child > summary::-webkit-details-marker { display: none; }
+    details.child > summary::before {
+      content: "+ ";
+      color: var(--muted);
+      font-weight: 400;
+    }
+    details.child[open] > summary::before { content: "− "; }
+    ul.fields {
+      margin: 0 0 8px;
+      padding-left: 1.25rem;
+      font-size: 0.875rem;
+    }
+    ul.fields li { margin: 3px 0; }
+    ul.fields code {
+      font-family: var(--mono);
+      font-size: 0.8125rem;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .fk { color: var(--accent); font-size: 0.8rem; }
+    footer {
+      margin-top: 32px;
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      details.entity > summary::before { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Master Tables Hierarchy</h1>
+      <p>
+        Reference data shared across requisitions. Configured once (often synced from HCM),
+        referenced by many entities. Level 1 domain headers are collapsible; expand further
+        for tables and key fields.
+      </p>
+    </header>
+
+    <div class="legend">
+      Taxonomy levels:
+      <code>L1 Division</code> →
+      <code>L2 Table</code> →
+      <code>L3 Field group / child table</code> →
+      <code>L4 Field</code>
+    </div>
+
+    <div class="toolbar">
+      <button type="button" id="expand-all">Expand all</button>
+      <button type="button" id="collapse-all">Collapse all</button>
+    </div>
+
+    <!-- L1: Organizational Structure -->
+    <details class="entity" open>
+      <summary>Organizational Structure <span class="badge">L1 · 3 tables</span></summary>
+      <div class="body">
+        <p class="note">companies → business_units → departments (FK rollup).</p>
+        <pre class="tree" aria-label="Organizational Structure taxonomy">Organizational Structure
+       │
+       ├── companies
+       │          │
+       │          └── Key Fields
+       │                     │
+       │                     ├── company_code
+       │                     ├── company_name
+       │                     ├── about
+       │                     ├── logo_url
+       │                     ├── website
+       │                     └── disclaimer
+       │
+       ├── business_units
+       │          │
+       │          └── Key Fields
+       │                     │
+       │                     ├── unit_code
+       │                     ├── unit_name
+       │                     ├── description
+       │                     └── company_id
+       │
+       └── departments
+                  │
+                  └── Key Fields
+                             │
+                             ├── department_code
+                             ├── department_name
+                             ├── department_type
+                             ├── manager_id
+                             ├── business_unit_id
+                             └── parent_department_id</pre>
+
+        <details class="child">
+          <summary>companies</summary>
+          <p class="note">Replaces: company (free-text STRING). Legal entities; multi-brand branding, career site, compliance, pay.</p>
+          <ul class="fields">
+            <li><code>company_code</code></li>
+            <li><code>company_name</code></li>
+            <li><code>about</code></li>
+            <li><code>logo_url</code></li>
+            <li><code>website</code></li>
+            <li><code>disclaimer</code></li>
+          </ul>
+        </details>
+
+        <details class="child">
+          <summary>business_units</summary>
+          <p class="note">Replaces: business, businessUnit, businessSegment. Operational divisions for budget and P&amp;L.</p>
+          <ul class="fields">
+            <li><code>unit_code</code></li>
+            <li><code>unit_name</code></li>
+            <li><code>description</code></li>
+            <li><code>company_id</code> <span class="fk">FK → companies</span></li>
+          </ul>
+        </details>
+
+        <details class="child">
+          <summary>departments</summary>
+          <p class="note">Replaces: department. Hierarchical org units; hiring manager and reporting tree.</p>
+          <ul class="fields">
+            <li><code>department_code</code></li>
+            <li><code>department_name</code></li>
+            <li><code>department_type</code></li>
+            <li><code>manager_id</code></li>
+            <li><code>business_unit_id</code> <span class="fk">FK → business_units</span></li>
+            <li><code>parent_department_id</code> <span class="fk">self-FK</span></li>
+          </ul>
+        </details>
+      </div>
+    </details>
+
+    <!-- L1: Role and Headcount -->
+    <details class="entity">
+      <summary>Role and Headcount <span class="badge">L1 · 2 tables</span></summary>
+      <div class="body">
+        <p class="note">job_profiles = role catalog; positions = fillable headcount seats.</p>
+        <pre class="tree" aria-label="Role and Headcount taxonomy">Role and Headcount
+       │
+       ├── job_profiles
+       │          │
+       │          └── Key Fields
+       │                     │
+       │                     ├── profile_code
+       │                     ├── profile_name
+       │                     ├── description
+       │                     ├── job_family_group_id
+       │                     ├── job_family_id
+       │                     ├── management_level_id
+       │                     └── job_level_id
+       │
+       └── positions
+                  │
+                  └── Key Fields
+                             │
+                             ├── position_id
+                             ├── position_code
+                             ├── title
+                             ├── job_profile_id
+                             ├── department_id
+                             ├── location_id
+                             ├── grade_level
+                             └── is_vacant</pre>
+
+        <details class="child">
+          <summary>job_profiles</summary>
+          <p class="note">New. Role catalog — not a headcount slot. Multiple positions/reqs can reference one profile.</p>
+          <ul class="fields">
+            <li><code>profile_code</code></li>
+            <li><code>profile_name</code></li>
+            <li><code>description</code></li>
+            <li><code>job_family_group_id</code></li>
+            <li><code>job_family_id</code></li>
+            <li><code>management_level_id</code></li>
+            <li><code>job_level_id</code></li>
+          </ul>
+        </details>
+
+        <details class="child">
+          <summary>positions</summary>
+          <p class="note">New. One fillable seat. Partially replaces noOfAvailableOpenings.</p>
+          <ul class="fields">
+            <li><code>position_id</code></li>
+            <li><code>position_code</code></li>
+            <li><code>title</code></li>
+            <li><code>job_profile_id</code> <span class="fk">FK → job_profiles</span></li>
+            <li><code>department_id</code> <span class="fk">FK → departments</span></li>
+            <li><code>location_id</code> <span class="fk">FK → locations</span></li>
+            <li><code>grade_level</code></li>
+            <li><code>is_vacant</code></li>
+          </ul>
+        </details>
+      </div>
+    </details>
+
+    <!-- L1: Classification -->
+    <details class="entity">
+      <summary>Classification <span class="badge">L1 · 1 table</span></summary>
+      <div class="body">
+        <pre class="tree" aria-label="Classification taxonomy">Classification
+       │
+       └── categories
+                  │
+                  └── Key Fields
+                             │
+                             ├── category_code
+                             ├── category_name
+                             ├── category_type
+                             └── category_level</pre>
+
+        <details class="child">
+          <summary>categories</summary>
+          <p class="note">Replaces: multi_category + subCategory. Flat tags with PRIMARY/SUB level.</p>
+          <ul class="fields">
+            <li><code>category_code</code></li>
+            <li><code>category_name</code></li>
+            <li><code>category_type</code> — JOB_FAMILY / JOB_FUNCTION / EEO_CATEGORY / CAREER_SITE_TAG / COMPLIANCE / CUSTOM</li>
+            <li><code>category_level</code> — PRIMARY / SUB</li>
+          </ul>
+        </details>
+      </div>
+    </details>
+
+    <!-- L1: Location and Address -->
+    <details class="entity">
+      <summary>Location and Address <span class="badge">L1 · 5 tables</span></summary>
+      <div class="body">
+        <p class="note">Replaces: multi_location + branch. Named places with structured addresses and history.</p>
+        <pre class="tree" aria-label="Location and Address taxonomy">Location and Address
+       │
+       └── locations + addresses
+                  │
+                  ├── addresses
+                  │          │
+                  │          ├── postal
+                  │          └── geo
+                  │
+                  ├── locations
+                  │          │
+                  │          └── named places
+                  │
+                  ├── location_addresses
+                  │          │
+                  │          └── history
+                  │
+                  ├── req_locations
+                  │          │
+                  │          └── junction
+                  │
+                  └── location_master
+                             │
+                             └── HCM sync</pre>
+
+        <details class="child">
+          <summary>addresses</summary>
+          <ul class="fields">
+            <li>postal fields</li>
+            <li>geo coordinates</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>locations</summary>
+          <ul class="fields">
+            <li>named places (stores, offices, warehouses)</li>
+            <li>references addresses</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>location_addresses</summary>
+          <ul class="fields">
+            <li>location ↔ address history (store can move, keep identity)</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>req_locations</summary>
+          <ul class="fields">
+            <li>junction: requisition ↔ locations (multi-location posting)</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>location_master</summary>
+          <ul class="fields">
+            <li>HCM sync reference</li>
+          </ul>
+        </details>
+      </div>
+    </details>
+
+    <!-- L1: Skills Taxonomy -->
+    <details class="entity">
+      <summary>Skills Taxonomy <span class="badge">L1 · 4 tables</span></summary>
+      <div class="body">
+        <p class="note">Replaces: flat skills LIST (up to 50 names). Grouping, relations, embeddings.</p>
+        <pre class="tree" aria-label="Skills Taxonomy">Skills Taxonomy
+       │
+       ├── skills
+       │          │
+       │          └── Key Fields
+       │                     │
+       │                     ├── skill_id
+       │                     ├── name
+       │                     ├── normalized_name
+       │                     ├── skill_type
+       │                     ├── skill_domain
+       │                     ├── taxonomy_path
+       │                     └── skill_group_id
+       │
+       ├── skill_groups
+       │          │
+       │          └── grouping
+       │
+       ├── skill_relations
+       │          │
+       │          ├── similar-to
+       │          └── prerequisite-of
+       │
+       └── skill_embeddings
+                  │
+                  └── semantic matching</pre>
+
+        <details class="child">
+          <summary>skills</summary>
+          <ul class="fields">
+            <li><code>skill_id</code></li>
+            <li><code>name</code></li>
+            <li><code>normalized_name</code></li>
+            <li><code>skill_type</code></li>
+            <li><code>skill_domain</code></li>
+            <li><code>taxonomy_path</code></li>
+            <li><code>skill_group_id</code> <span class="fk">FK → skill_groups</span></li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>skill_groups</summary>
+          <ul class="fields"><li>grouping for the skills taxonomy</li></ul>
+        </details>
+        <details class="child">
+          <summary>skill_relations</summary>
+          <ul class="fields">
+            <li>similar-to connections</li>
+            <li>prerequisite-of connections</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>skill_embeddings</summary>
+          <ul class="fields"><li>AI embeddings for semantic matching</li></ul>
+        </details>
+      </div>
+    </details>
+
+    <!-- L1: Compensation -->
+    <details class="entity">
+      <summary>Compensation <span class="badge">L1 · 4 tables</span></summary>
+      <div class="body">
+        <p class="note">New. Grades, steps, packages, and plan definitions for pay transparency and offers.</p>
+        <pre class="tree" aria-label="Compensation taxonomy">Compensation
+       │
+       ├── compensation_grades
+       │          │
+       │          └── Pay bands
+       │                     │
+       │                     └── min / mid / max
+       │
+       ├── compensation_steps
+       │          │
+       │          └── Within-grade positions
+       │                     │
+       │                     └── tenure-based rates
+       │
+       ├── compensation_packages
+       │          │
+       │          └── Named plan bundles
+       │                     │
+       │                     └── Base + Bonus + LTI + Car
+       │
+       └── compensation_plan_definitions
+                  │
+                  └── Plan type catalog
+                             │
+                             ├── ALLOWANCE
+                             └── BONUS</pre>
+
+        <details class="child">
+          <summary>compensation_grades</summary>
+          <ul class="fields"><li>Pay bands with min / mid / max (e.g. Grade 7: $120K–$150K–$180K Annual)</li></ul>
+        </details>
+        <details class="child">
+          <summary>compensation_steps</summary>
+          <ul class="fields"><li>Positions within a grade, often tenure-based (e.g. Level 01: $34.41/hr)</li></ul>
+        </details>
+        <details class="child">
+          <summary>compensation_packages</summary>
+          <ul class="fields"><li>Named bundles of plans (e.g. Executive Package = Base + Bonus + LTI + Car)</li></ul>
+        </details>
+        <details class="child">
+          <summary>compensation_plan_definitions</summary>
+          <ul class="fields"><li>Catalog of plan types (e.g. Car Allowance ALLOWANCE, Annual Bonus BONUS)</li></ul>
+        </details>
+      </div>
+    </details>
+
+    <!-- L1: Supporting Masters -->
+    <details class="entity">
+      <summary>Supporting Masters <span class="badge">L1 · 7 tables</span></summary>
+      <div class="body">
+        <pre class="tree" aria-label="Supporting Masters taxonomy">Supporting Masters
+       │
+       ├── users
+       │          │
+       │          └── System actors
+       │                     │
+       │                     ├── recruiters
+       │                     ├── hiring managers
+       │                     └── approvers
+       │
+       ├── scorecards
+       │          │
+       │          └── Interview templates
+       │                     │
+       │                     └── interviewEvaluationForm
+       │
+       ├── agencies
+       │          │
+       │          └── External recruiters
+       │                     │
+       │                     └── agencyList
+       │
+       ├── employee_types
+       │          │
+       │          └── Employment classifications
+       │                     │
+       │                     └── jobType logic
+       │
+       ├── req_status_reasons
+       │          │
+       │          └── Close / cancel reasons
+       │                     │
+       │                     └── closeReason
+       │
+       ├── locales
+       │          │
+       │          └── Languages / regions
+       │
+       └── documents
+                  │
+                  └── File references
+                             │
+                             └── attachments</pre>
+
+        <details class="child">
+          <summary>users</summary>
+          <ul class="fields">
+            <li>recruiters, hiring managers, approvers</li>
+            <li>Replaces: implicit user references</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>scorecards</summary>
+          <ul class="fields">
+            <li>Interview evaluation templates</li>
+            <li>Replaces: interviewEvaluationForm ENTITY</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>agencies</summary>
+          <ul class="fields">
+            <li>External recruitment agencies</li>
+            <li>Replaces: agencyList STRING</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>employee_types</summary>
+          <ul class="fields">
+            <li>Customer-specific employment classifications</li>
+            <li>Replaces: part of jobType logic</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>req_status_reasons</summary>
+          <ul class="fields">
+            <li>Configurable close / cancel reasons</li>
+            <li>Replaces: closeReason STRING</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>locales</summary>
+          <ul class="fields">
+            <li>Supported languages / regions for postings</li>
+            <li>New — no prior equivalent</li>
+          </ul>
+        </details>
+        <details class="child">
+          <summary>documents</summary>
+          <ul class="fields">
+            <li>File storage references</li>
+            <li>Replaces: attachments ENTITY</li>
+          </ul>
+        </details>
+      </div>
+    </details>
+
+    <footer>
+      Org FK chain: companies → business_units → departments → positions
+      (positions also reference job_profiles and locations).
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var expand = document.getElementById("expand-all");
+      var collapse = document.getElementById("collapse-all");
+      function setAll(open) {
+        document.querySelectorAll("details").forEach(function (d) {
+          d.open = open;
+        });
+      }
+      expand.addEventListener("click", function () { setAll(true); });
+      collapse.addEventListener("click", function () { setAll(false); });
+    })();
+  </script>
+</body>
+</html>
